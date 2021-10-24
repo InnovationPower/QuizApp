@@ -1,17 +1,30 @@
+/*== 全体設定 ==*/
+
 body{
     font-family: "Noto Sans JP"; 
 }
+
+ol{
+    margin-bottom: 0;
+}
+
+/*== 共通するUI設定 ==*/
 
 .bg-main-green{
     background: #03A678;
 }
 
+.font-bold{
+    font-weight: bold;
+}
 
+/*== 個別のUIデザイン ==*/
 .main-title{
     font-size: 28px;
     font-weight: bold;
 }
 
+/*== 回答ボタンのデザイン ==*/
 .answer-btn{
     font-size: 24px;
     display: inline-block;
@@ -41,6 +54,19 @@ body{
     border-bottom: none;
 }
 
+.answer-btn-bg1{
+    background: #f2902e;
+}
+
+.answer-btn-bg2{
+    background: #f2c12e;
+}
+
+.answer-btn-bg3{
+    background: #f2e22e;
+}
+
+/*== 問題文を表示するテキストボックスのデザイン ==*/
 .questionBox {
     position: relative;
     margin: 2em 0;
@@ -56,17 +82,15 @@ body{
     left: 10px;
     padding: 0 9px;
     line-height: 1;
-    font-size: 18px;
+    font-size: 20px;
     background: #FFF;
     color: #049DBF;
     font-weight: bold;
 }
 .questionBox p {
     margin: 0;
-    padding: 0;
-
-    font-size: 14px;
-
+    padding: 5px;
+    font-size: 18px;
 }
 
 .choiceBox{
@@ -87,17 +111,6 @@ body{
     width: 100px;
 }
 
-.answer-btn-bg1{
-    background: #f2902e;
-}
-
-.answer-btn-bg2{
-    background: #f2c12e;
-}
-
-.answer-btn-bg3{
-    background: #f2e22e;
-}
 
 
 
