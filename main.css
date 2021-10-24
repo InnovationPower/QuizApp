@@ -1,0 +1,109 @@
+body{
+    font-family: "Noto Sans JP"; 
+}
+
+.bg-main-green{
+    background: #03A678;
+}
+
+
+.main-title{
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.answer-btn{
+    font-size: 24px;
+    display: inline-block;
+    text-decoration: none;
+    background: #ff8181;
+    color: #FFF;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px #bd6565;
+    transition: .4s;
+}
+
+.answer-btn:hover{
+    color: white;
+}
+
+.answer-btn:active {
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+    border-bottom: none;
+}
+
+.questionBox {
+    position: relative;
+    margin: 2em 0;
+    padding: 0.5em 1em;
+    border: solid 3px #049DBF;
+    border-radius: 8px;
+}
+
+.questionBox .box-title {
+    position: absolute;
+    display: inline-block;
+    top: -13px;
+    left: 10px;
+    padding: 0 9px;
+    line-height: 1;
+    font-size: 18px;
+    background: #FFF;
+    color: #049DBF;
+    font-weight: bold;
+}
+.questionBox p {
+    margin: 0;
+    padding: 0;
+
+    font-size: 14px;
+
+}
+
+.choiceBox{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #5d627b;
+    background: white;
+    border-top: solid 5px #5d627b;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+}
+
+.choiceBox p {
+    margin: 0; 
+    padding: 0;
+}
+
+.answer-img{
+    width: 100px;
+}
+
+.answer-btn-bg1{
+    background: #f2902e;
+}
+
+.answer-btn-bg2{
+    background: #f2c12e;
+}
+
+.answer-btn-bg3{
+    background: #f2e22e;
+}
+
+
+
+/* Color Theme Swatches in Hex */
+.イラスト-1-hex { color: #049DBF; }
+.イラスト-2-hex { color: #03A678; }
+.イラスト-3-hex { color: #F2C12E; }
+.イラスト-4-hex { color: #F28705; }
+.イラスト-5-hex { color: #F25835; }

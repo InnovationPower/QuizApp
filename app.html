@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap の読み込み -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+
+    <link rel="stylesheet" href="main.css">
+
+    <!-- css の読み込み -->
+    <style ></style>
+    <title>クイズアプリ</title>
+</head>
+<body>
+    <!-- As a heading -->
+ 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-main-green">
+        <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
+            Quiz App
+        </a>
+    </nav>
+
+    <div id="app">
+
+        <div class="container">
+
+            <div class="row my-3">
+
+                <div class="col-12">
+                    <h1 class="text-center main-title">県庁所在地クイズ</h1>
+                    <p class="text-center">都道府県の県庁所在地を3つの中から選んで回答しよう</p>
+                </div>
+
+            </div>
+
+            <!-- ここから下に新しく作る -->
+
+            <div class="row">
+
+                <div class="col-md-8 offset-md-2">
+                    第{{getCurrentQuestionNumber()}}問
+                </div>
+
+                <!-- 問題文を表示する領域 -->
+                <div class="col-md-8 offset-md-2">
+                    
+                    <div class="questionBox">
+                        <span class="box-title">問題</span>
+                        <p>{{questions[currentQuestionNumber].title}}</p>
+                    </div>
+
+                </div>
+
+                <div class="col-md-8 offset-md-2">
+                    <ol>
+                        
+                        <li v-for="answer in questions[currentQuestionNumber].answers">
+                            {{answer}}
+                        </li>
+                        
+                    </ol>
+                </div>
+
+                <!-- 回答ボタンを表示する領域 -->
+
+                <div class="col-md-8 offset-md-2 text-center mt-5">
+
+                    <div class="mb-4">
+                        <a href="#" class="answer-btn answer-btn-bg1 mx-3" @click="answerCheck(0)">1</a>
+                        <a href="#" class="answer-btn answer-btn-bg2 mx-3" @click="answerCheck(1)">2</a>
+                        <a href="#" class="answer-btn answer-btn-bg3 mx-3" @click="answerCheck(2)">3</a>
+                    </div>
+
+                    <p class="text-center">正解だと思う番号のボタンをクリックしよう</p>
+
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
+        <!-- 答えを表示するモーダル -->
+        
+        <div class="modal" id="answerCheckModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">問題{{getCurrentQuestionNumber()}}</h5>
+                    </div>
+                    
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <img src="./images//correct.png" class="answer-img" alt="" v-if="isCorrect">
+                                    <img src="./images/miss.png" class="answer-img" alt="" v-if="!isCorrect">
+                                </div>
+                            </div>
+
+                            <div class="col-8">
+
+                                <div v-if="isCorrect">
+                                    <h3 class="answer-title">正解！</h3>
+                                    <p>正解は、{{questions[currentQuestionNumber].answers[questions[currentQuestionNumber].answerNum]}}ですね！</p>
+                                    <p></p>    
+                                </div>
+
+                                <div v-if="!isCorrect">
+                                    <h3 class="answer-title">残念...!</h3>
+                                    <p>正解は、{{questions[currentQuestionNumber].answers[questions[currentQuestionNumber].answerNum]}}でした。</p>
+                                    <p></p>    
+                                </div>
+
+                            </div>
+
+                        </div>
+        
+                    </div>
+        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="nextQuestion()">次の問題へ</button>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <!-- すべての問題を回答し終わったときに表示するモーダル -->
+
+         <div class="modal fade" id="answerEndedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        おつかれさまでした！
+                    </div>
+                    
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="text-center">
+                                    <img src="./images/trophy.png" class="answer-img">
+                                </div>
+                            </div>
+
+                            <div class="col-8">
+
+                                <p>{{questionsLength}} 問中 {{ correctAnswerNum }}問正解しました！</p>
+
+                            </div>
+
+                        </div>
+        
+                        
+
+                    </div>
+        
+                    <div class="modal-footer">
+                    
+                        <a href="index.html" class="btn btn-success">クイズ一覧にもどる</a>
+                        <a href="#" class="btn btn-primary" @click="reload()">最初から答える</a>
+
+                    </div>
+                </div>
+            </div>
+         </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+
+        var app = new Vue({
+
+            el: "#app",
+            data: {
+
+                //使いたい変数や配列などを定義する
+
+                //問題文のデータ
+                questions:{
+                    0:{
+                        title: "神奈川県の県庁所在地はどこ？",
+                        hint: "赤レンガ倉庫がある街！",
+                        answers: [
+                            "横浜市", "横須賀市", "町田市"
+                        ],
+                        answerNum: 0,
+                        description: ""
+                    },
+
+                    1:{
+                        title: "千葉県の県庁所在地はどこ？",
+                        hint: "政令指定都市だよ！",
+                        answers: [
+                            "柏市", "銚子市", "千葉市"
+                        ],
+                        answerNum: 2,
+                        description: ""
+                    },
+
+                    2:{
+                        title: "東京都の県庁所在地はどこ？",
+                        hint: "世界で一番多くの人が乗り降りする駅があるよ！",
+                        answers: [
+                            "港区", "新宿区", "六本木"
+                        ],
+                        answerNum: 1,
+                        description: ""
+                    },
+
+                    3:{
+                        title: "埼玉県の県庁所在地はどこ？",
+                        hint: "大きなアリーナがある場所だね！",
+                        answers: [
+                            "所沢市", "浦和市", "さいたま市"
+                        ],
+                        answerNum: 2,
+                        description: ""
+                    },
+
+                    4:{
+                        title: "群馬県の県庁所在地はどこ？",
+                        hint: "豚肉の生産量がトップクラス！",
+                        answers: [
+                            "前橋市", "高崎市", "館林市"
+                        ],
+                        answerNum: 0,
+                        description: ""
+                    },
+
+                    5:{
+                        title: "茨城県の県庁所在地はどこ？",
+                        hint: "納豆が有名！",
+                        answers: [
+                            "水戸市", "つくば市", "大洗町"
+                        ],
+                        answerNum: 0,
+                        description: ""
+                    },
+                    6:{
+                        title: "栃木県の県庁所在地はどこ？",
+                        hint: "ぎょうざが美味しい！",
+                        answers: [
+                            "日光市", "宇都宮市", "那須塩原市"
+                        ],
+                        answerNum: 1,
+                        description: ""
+                    }
+                },
+
+                //変数
+                currentQuestionNumber: 0,   //現在の問題番号
+                currentQuestionData: [], //現在の問題データ
+                correctAnswerNum: 0,//正解した数
+                isCorrect: true,
+                questionsLength: 0
+
+
+            },
+
+            mounted() {
+
+                // ページが読み込まれたとき最初に呼ばれる関数
+
+                //問題の長さを自動的に設定する
+                this.questionsLength = Object.keys(this.questions).length;
+                
+            },
+
+            methods: {
+
+                // 処理を関数にして記述する
+
+                getCurrentQuestionNumber(){
+                    return this.currentQuestionNumber + 1;
+                },
+
+                //答えをチェックする処理
+                answerCheck(userChoiceNumber){
+
+                    if(userChoiceNumber == this.questions[this.currentQuestionNumber].answerNum){
+                        //正解！
+                        this.isCorrect = true;
+                        this.correctAnswerNum += 1;
+                    }else{
+                        this.isCorrect = false;
+                    }
+                    
+                    //結果を表示するモーダルを表示する
+                    $('#answerCheckModal').modal({
+                        keyboard: false,
+                        backdrop: "static"
+                    });
+                },
+
+                // 次の問題に行く処理
+                nextQuestion(){
+
+                    if(this.currentQuestionNumber < Object.keys(this.questions).length - 1){
+                        this.currentQuestionNumber += 1;
+                        $('#answerCheckModal').modal('hide');
+                    }else{3
+                        $('#answerCheckModal').modal('hide');
+
+                        //すべての問題が解き終わったので、最終結果モーダルを表示する
+                        $('#answerEndedModal').modal({
+                            keyboard: false,
+                            backdrop: "static"
+                        });
+                    }                    
+                }
+
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
