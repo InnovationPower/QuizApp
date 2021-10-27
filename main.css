@@ -54,6 +54,7 @@ ol{
     border-bottom: none;
 }
 
+/* ボタンの背景色 */
 .answer-btn-bg1{
     background: #f2902e;
 }
@@ -93,6 +94,7 @@ ol{
     font-size: 18px;
 }
 
+
 .choiceBox{
     padding: 0.5em 1em;
     margin: 2em 0;
@@ -110,8 +112,6 @@ ol{
 .answer-img{
     width: 100px;
 }
-
-
 
 
 /* Color Theme Swatches in Hex */
